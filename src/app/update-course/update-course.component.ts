@@ -47,10 +47,15 @@ export class UpdateCourseComponent implements OnInit {
 
   updateCourse() {
     this.courseService.updateCourse(this.id, this.course).subscribe(
-      (data) => console.log(data),
+      (data) => {
+        return console.log(data), this.backToCourses()
+      }
     );
-    this.course = new Course();
-    this.router.navigate(["/courses"])
+    // this.course = new Course();
+  }
+
+  backToCourses() {
+    this.router.navigate(['/courses']);
   }
 
 }

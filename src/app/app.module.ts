@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UpdateCourseComponent } from './update-course/update-course.component';
 import { LoginComponent } from './login/login.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     AddCourseComponent,
     UpdateCourseComponent,
     LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

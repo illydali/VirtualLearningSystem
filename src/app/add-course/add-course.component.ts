@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CourseService } from '../services/course.service';
 
@@ -11,7 +11,8 @@ import { CourseService } from '../services/course.service';
 export class AddCourseComponent implements OnInit {
 
   addNew!: FormGroup;
-
+  availability: any = ['Today', 'Available', 'Tomorrow'];
+  isSubmitted = false;
   constructor(
     private formBuilder: FormBuilder,
     private courseService: CourseService,
@@ -21,24 +22,42 @@ export class AddCourseComponent implements OnInit {
   ngOnInit(): void {
     this.addNew = this.formBuilder.group({
       id: [],
-      courseName: [],
+      courseName: ["", Validators.required],
       authorName: [],
       duration: [],
-      availability: [],
+      availability: ["", Validators.required], 
+      ava: [],
 
     })
   }
 
+  changeAvail(e:any) {
+    this.addNew.controls['availability']
+    .setValue(e.target.value, {
+      onlySelf: true,
+    })
+  }
+
+  get avail() {
+    return this.addNew.get('availability');
+  }
+
   saveCourse() {
     console.log(this.addNew.value)
-
+    this.isSubmitted = true;
     this.courseService.createCourse(this.addNew.value).subscribe(
       (data) => {
-        return console.log("new data added", data)
+        return console.log("new data added", data), this.backToCourses()
       }
     )
    
-    this.router.navigate(['/courses'])
+    // this.router.navigate(['/courses'])
+  }
+
+  // by calling a function to redirect, it will go to 
+  // get all data and go to course list page ?
+  backToCourses() {
+    this.router.navigate(['/courses']);
   }
 
 }

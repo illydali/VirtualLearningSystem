@@ -1,7 +1,7 @@
 <div class="container">
     <h3 class="mt-3">New Course</h3>
     <hr/>
-    <form [formGroup]="addNew">
+    <form [formGroup]="addNew" >
         <div hidden class="form-group">
             <label for="id">Id</label>
             <input type="text" id="id" class="form-control" formControlName="id"><br>
@@ -24,12 +24,28 @@
 
         <div class="form-group">
             <label for="availability">Availability</label>
-            <input type="text" id="availability" class="form-control" formControlName="availability"><br>
+            <!-- <input type="text" id="availability" class="form-control" formControlName="availability"><br> -->
+        
+            <select
+            class="form-select mb-3"
+            (change)="changeAvail($event)"
+            formControlName="availability"
+            id="availability"
+            class="form-control"
+          >
+            <option *ngFor="let a of availability" [ngValue]="a">
+              {{ a }}
+            </option>
+          </select>
+
+          <!-- select validation: error block -->
+        <div *ngIf="isSubmitted && availability?.invalid">
+            <sup>*</sup>Please select availability name
         </div>
 
+        </div>
+        <br/>
         <div class="d-flex justify-content-center">
-
-            
             <button (click)="saveCourse()" class="btn-warning btn btn-sm me-3">Submit</button>
             <button type="reset" class="btn-dark btn btn-sm ms-3">Reset</button>
         </div>

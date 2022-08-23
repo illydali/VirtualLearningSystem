@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Login } from '../model/login';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private userService: UserService,
   ) { }
 
   ngOnInit(): void {
@@ -26,18 +29,29 @@ export class LoginComponent implements OnInit {
     console.log("logging........");
     console.log(this.loginForm.value);
 
-    const loginId : string = this.loginForm.controls["loginId"].value;
+    const loginId: string = this.loginForm.controls["loginId"].value;
     const password: string = this.loginForm.controls["password"].value;
-    
-    if(loginId == "testuser" && password == "rotiprata") {
-      sessionStorage.setItem("loggedIn", "yes")
-      this.router.navigate(['courses'])
-    } else {
-      this.loginForm.controls["loginId"].setValue("");
-      this.loginForm.controls["password"].setValue("");
-      this.router.navigate(['login'])
-    }
+
+    let authenticate: Login = {}
+
+    this.userService.authenticateUser(loginId, password).subscribe(
+      (authStatus) => {
+        console.log(authStatus), authenticate = authStatus;
+        console.log(authenticate)
+
+        if (authenticate.loggedIn == "granted") {
+          sessionStorage.setItem("loggedIn", "yes");
+          console.log("success")
+          this.router.navigate(['courses'])
+        } else {
+
+          console.log("retry!")
+          this.loginForm.controls["loginId"].setValue("");
+          this.loginForm.controls["password"].setValue("");
+          this.router.navigate(['login'])
+        }
+      })
   }
-
-
 }
+
+
