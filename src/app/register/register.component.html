@@ -13,7 +13,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="userControl">Username </label>
+                        <label for="emailControl">Email : </label>
+                        <input type="text" id="emailControl" class="form-control" formControlName="email">
+
+                        <!-- validation message -->
+                        <div style="color: red" *ngIf="!registerForm.controls['email'].valid && 
+            (registerForm.controls['email'].touched || 
+            registerForm.controls['email'].dirty)">
+                            Email is required
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="form-group">
+                        <label for="userControl">Username :
+
+                        </label>
                         <input type="text" id="userControl" class="form-control" formControlName="user">
                         <!-- validation message -->
                         <div *ngIf="!registerForm.controls['user'].valid && (registerForm.controls['user'].touched || 
@@ -25,9 +40,31 @@
                             && !registerForm.controls['user'].errors?.['maxlength']">
                                 Username should be 4-10 characters.
                             </div>
+                            <div style="color: red" class='fst-italic' [hidden]="!registerForm.controls['user'].errors?.['pattern']">
+                        
+                                Username should not contain special characters or numbers
+                            </div>
                         </div>
                     </div>
                     <br />
+
+                    <div class="form-group">
+                        <label for="phoneControl">Phone Number : </label>
+                        <input type="text" id="phoneControl" class="form-control" formControlName="phone">
+
+                        <!-- validation message -->
+                        <div style="color: red" *ngIf="!registerForm.controls['phone'].valid && 
+            (registerForm.controls['phone'].touched || 
+            registerForm.controls['phone'].dirty)">
+                            Phone number is required
+                        </div>
+                        <div style="color: blue" class='fst-italic' [hidden]="!registerForm.controls['phone'].errors?.['pattern']">
+                            
+                                Phone should only contain numbers.
+                        </div>
+                    </div>
+                    <br/>
+
                     <div class="form-group">
                         <label for="passwordControl">Password :</label>
                         <input type="password" id="passwordControl" class="form-control" formControlName="password">
@@ -37,7 +74,7 @@
                             </div>
                             <div style="color: blue" class='fst-italic' [hidden]="!registerForm.controls['password'].errors?.['minlength']
                             && !registerForm.controls['password'].errors?.['maxlength']">
-                                Password should be 8-20 characters.
+                                Password should be 4-8 characters.
                             </div>
                         </div>
                     </div>
