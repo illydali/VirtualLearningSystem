@@ -11,6 +11,7 @@ import { UserService } from '../services/user.service';
 export class RegisterComponent implements OnInit {
 
   registerForm!: FormGroup;
+  fieldTextType: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,14 +23,23 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       id: [],
       email: ["",[ Validators.required, Validators.email]],
-      user: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
-      phone: ["", [Validators.required, Validators.pattern(`^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$`)]],
-      password: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
+      user: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(10), Validators.pattern("^[a-zA-Z \-\']+")]],
+      phone: ["", [Validators.required, Validators.pattern("^[0-9]*$")]],
+      password: ["", [Validators.required, Validators.minLength(8), Validators.maxLength(10),
+      Validators.pattern(`(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$`)]],
     })
   }
 
+  // ^[a-zA-Z \-\']+
+  // (?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W+)(.{4,20})$
+  // (?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,15}
+
   get password() {
     return this.registerForm.get('password');
+  }
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
   }
 
   saveUser() {

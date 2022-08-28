@@ -23,7 +23,7 @@
                             Email is required
                         </div>
                     </div>
-                    <br/>
+                    <br />
 
                     <div class="form-group">
                         <label for="userControl">Username :
@@ -33,16 +33,18 @@
                         <!-- validation message -->
                         <div *ngIf="!registerForm.controls['user'].valid && (registerForm.controls['user'].touched || 
             registerForm.controls['user'].dirty)">
-                            <div style="color: red" class='fst-italic' [hidden]="!registerForm.controls['user'].errors?.['required']">
+                            <div style="color: red" class='fst-italic'
+                                [hidden]="!registerForm.controls['user'].errors?.['required']">
                                 Username is required
                             </div>
                             <div style="color: blue" class='fst-italic' [hidden]="!registerForm.controls['user'].errors?.['minlength']
                             && !registerForm.controls['user'].errors?.['maxlength']">
                                 Username should be 4-10 characters.
                             </div>
-                            <div style="color: red" class='fst-italic' [hidden]="!registerForm.controls['user'].errors?.['pattern']">
-                        
-                                Username should not contain special characters or numbers
+                            <div style="color: red" class='fst-italic'
+                                [hidden]="!registerForm.controls['user'].errors?.['pattern']">
+
+                                Username should not contain any special characters or numbers.
                             </div>
                         </div>
                     </div>
@@ -58,32 +60,53 @@
             registerForm.controls['phone'].dirty)">
                             Phone number is required
                         </div>
-                        <div style="color: blue" class='fst-italic' [hidden]="!registerForm.controls['phone'].errors?.['pattern']">
-                            
-                                Phone should only contain numbers.
+                        <div style="color: blue" class='fst-italic'
+                            [hidden]="!registerForm.controls['phone'].errors?.['pattern']">
+
+                            Phone should only contain numbers.
                         </div>
                     </div>
-                    <br/>
-
+                    <br />
                     <div class="form-group">
                         <label for="passwordControl">Password :</label>
-                        <input type="password" id="passwordControl" class="form-control" formControlName="password">
+                        <div class="input-group">
+                            <input id="passwordControl" class="form-control" formControlName="password"
+                            [type]="fieldTextType ? 'text' : 'password'">
+                           
+                                <span class="input-group-text">
+                                    <i class="fa"  [ngClass]="{
+                                        'fa-eye-slash': !fieldTextType,
+                                        'fa-eye': fieldTextType
+                                      }"
+                                      (click)="toggleFieldTextType()"></i>
+                                </span>
+                            
+                        </div>
+                        <!-- password error validation here -->
                         <div *ngIf="!password?.valid && (password?.touched || password?.dirty)">
-                            <div style="color: red" class='fst-italic' [hidden]="!registerForm.controls['password'].errors?.['required']">
+                            <div style="color: red" class='fst-italic'
+                                [hidden]="!registerForm.controls['password'].errors?.['required']">
                                 Password is required
                             </div>
                             <div style="color: blue" class='fst-italic' [hidden]="!registerForm.controls['password'].errors?.['minlength']
                             && !registerForm.controls['password'].errors?.['maxlength']">
-                                Password should be 4-8 characters.
+                                Password should have least 8 characters.
+                            </div>
+                            <div style="color: red" class='fst-italic'
+                                [hidden]="!registerForm.controls['password'].errors?.['pattern']">
+
+                                Password should contain 1 uppercase, 1 lowercase, 1 number and 1 special character.
                             </div>
                         </div>
+
                     </div>
                     <br />
                     <p class="text-center" *ngIf="!registerForm.valid">
-                        Please complete the missing information. 
+                        Please complete the missing information.
                     </p>
                     <div class="d-flex justify-content-center">
-                        <button class="btn-warning btn btn-sm me-3" [disabled]="!registerForm.valid" (click)="saveUser()">Register</button>
+                        <button class="btn-warning btn btn-sm me-3" [disabled]="!registerForm.valid"
+                            (click)="saveUser()">Register</button>
                         <button type="button" class="btn-success btn btn-sm ms-3">Clear</button>
                     </div>
                     <br />
