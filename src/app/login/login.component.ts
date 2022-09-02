@@ -11,6 +11,7 @@ import { UserService } from '../services/user.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  fieldTextType: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
